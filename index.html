@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPIICSA — Sistema de Predicción IA</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ipn-guinda:  #6b1c2f;
+  --ipn-oro:     #c8960c;
+  --ipn-oro2:    #e8b020;
+  --nav-bg:      #f0f0f0;
+  --nav-active:  #e07b00;
+  --nav-border:  #cccccc;
+  --content-bg:  #f5f5f5;
+  --white:       #ffffff;
+  --text:        #222222;
+  --text-muted:  #555555;
+  --link:        #8b0000;
+  --link-side:   #8b0000;
+  --border:      #cccccc;
+  --table-head:  #dcdcdc;
+  --green:       #2a7a2a;
+  --red:         #cc0000;
+  --orange:      #e07b00;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  background: var(--content-bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── HEADER TOP ─────────────────────────────── */
+.header-top {
+  background: var(--white);
+  border-bottom: 2px solid var(--ipn-guinda);
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-logos {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-ipn {
+  width: 54px; height: 54px;
+  background: var(--ipn-guinda);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.header-title {
+  text-align: center;
+  flex: 1;
+}
+
+.header-title h1 {
+  color: var(--ipn-guinda);
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  line-height: 1.4;
+  letter-spacing: 0.3px;
+}
+
+.logo-right {
+  width: 70px; height: 40px;
+  background: var(--ipn-guinda);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  font-size: 9px;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+/* ── NAV BAR ─────────────────────────────────── */
+.navbar {
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-border);
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.navbar a {
+  display: inline-block;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--text);
+  text-decoration: none;
+  border-right: 1px solid var(--nav-border);
+}
+
+.navbar a:first-child { border-left: 1px solid var(--nav-border); }
+.navbar a:hover { background: #e0e0e0; }
+.navbar a.active {
+  background: var(--nav-active);
+  color: #fff;
+}
+
+/* ── BREADCRUMB ───────────────────────────────── */
+.breadcrumb {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 4px 12px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.breadcrumb a { color: var(--link); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+
+/* ── LAYOUT ───────────────────────────────────── */
+.layout {
+  display: flex;
+  align-items: flex-start;
+  min-height: calc(100vh - 130px);
+}
+
+/* ── SIDEBAR ──────────────────────────────────── */
+.sidebar {
+  width: 175px;
+  flex-shrink: 0;
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  min-height: calc(100vh - 130px);
+  font-size: 12px;
+}
+
+.sidebar-section {
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-section-title {
+  background: var(--table-head);
+  padding: 5px 8px;
+  font-weight: bold;
+  font-size: 12px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar a {
+  display: block;
+  padding: 4px 8px 4px 18px;
+  color: var(--link-side);
+  text-decoration: none;
+  border-bottom: 1px dotted #e0e0e0;
+  font-size: 11px;
+}
+
+.sidebar a:hover { background: #f0e8e8; text-decoration: underline; }
+
+.sidebar a.active {
+  background: var(--nav-active);
+  color: #fff;
+  font-weight: bold;
+}
+
+/* ── MAIN CONTENT ─────────────────────────────── */
+.main {
+  flex: 1;
+  padding: 0;
+  background: var(--content-bg);
+}
+
+/* ── CONTENT HEADER (with IPN logo block) ─────── */
+.content-header {
+  background: var(--white);
+  border-bottom: 2px solid var(--border);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.content-logo-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.content-logo {
+  width: 48px; height: 48px;
+  background: var(--ipn-guinda);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  font-size: 9px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+.content-title {
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--ipn-guinda);
+  text-transform: uppercase;
+  line-height: 1.4;
+  text-align: center;
+  flex: 1;
+}
+
+.content-logo-right {
+  width: 48px; height: 36px;
+  background: var(--ipn-guinda);
+  border-radius: 3px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  font-size: 8px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* ── FORM AREA ────────────────────────────────── */
+.form-area {
+  padding: 0 16px 20px;
+}
+
+/* Carrera selector row */
+.carrera-row {
+  background: var(--white);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.carrera-row select {
+  font-size: 12px;
+  padding: 3px 6px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--text);
+  cursor: pointer;
+}
+
+/* MODULE TABS (Solicitar dictamen / Solicitudes anteriores style) */
+.mod-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--ipn-guinda);
+  margin-bottom: 14px;
+}
+
+.mod-tab {
+  padding: 6px 18px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  background: var(--nav-bg);
+  color: var(--text);
+  margin-right: 2px;
+  user-select: none;
+  position: relative;
+  bottom: -1px;
+}
+
+.mod-tab.active {
+  background: var(--white);
+  color: var(--ipn-guinda);
+  border-bottom: 2px solid var(--white);
+  border-top: 2px solid var(--ipn-guinda);
+}
+
+.mod-tab:hover:not(.active) { background: #e8e8e8; }
+
+/* ── DATA SECTION ─────────────────────────────── */
+.data-section {
+  background: var(--white);
+  border: 1px solid var(--border);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+
+.data-section-title {
+  font-weight: bold;
+  font-size: 12px;
+  color: var(--ipn-guinda);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 5px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.field-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.field-group label {
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--text);
+}
+
+.field-group input,
+.field-group select {
+  font-size: 12px;
+  padding: 4px 7px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  min-width: 140px;
+}
+
+.field-group input:focus,
+.field-group select:focus {
+  outline: 1px solid var(--ipn-guinda);
+  border-color: var(--ipn-guinda);
+}
+
+/* SUBMIT */
+.btn-submit {
+  background: var(--ipn-guinda);
+  color: #fff;
+  border: 1px solid #4a0f20;
+  padding: 5px 20px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 6px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.btn-submit:hover { background: #8a2540; }
+.btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-reset {
+  background: var(--nav-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 5px 16px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 6px;
+  margin-left: 6px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.btn-reset:hover { background: #e0e0e0; }
+
+/* LOADING */
+.loader {
+  display: none;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  font-style: italic;
+}
+.loader.show { display: block; }
+
+/* ERROR */
+.error-box {
+  display: none;
+  color: var(--red);
+  background: #fff0f0;
+  border: 1px solid #ffcccc;
+  padding: 6px 10px;
+  font-size: 12px;
+  margin-top: 8px;
+}
+.error-box.show { display: block; }
+
+/* RESULTS TABLE */
+.results { display: none; margin-top: 14px; }
+.results.show { display: block; }
+
+.result-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12px;
+  border: 1px solid var(--border);
+}
+
+.result-table th {
+  background: var(--ipn-guinda);
+  color: #fff;
+  padding: 5px 10px;
+  text-align: left;
+  font-weight: bold;
+  border: 1px solid #4a0f20;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.result-table td {
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  background: var(--white);
+}
+
+.result-table tr:nth-child(even) td { background: #f9f9f9; }
+
+.val-aprobado { color: var(--green); font-weight: bold; }
+.val-reprobado { color: var(--red); font-weight: bold; }
+.val-bajo  { color: var(--green); font-weight: bold; }
+.val-medio { color: var(--orange); font-weight: bold; }
+.val-alto  { color: var(--red); font-weight: bold; }
+.val-si    { color: var(--red); font-weight: bold; }
+.val-no    { color: var(--green); font-weight: bold; }
+
+/* Observations block */
+.obs-box {
+  background: #fffef0;
+  border: 1px solid var(--ipn-oro);
+  border-left: 4px solid var(--ipn-oro);
+  padding: 7px 10px;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 10px;
+  line-height: 1.6;
+  display: none;
+}
+.obs-box.show { display: block; }
+.obs-box strong { color: var(--ipn-guinda); font-size: 11px; text-transform: uppercase; }
+
+/* ── RIGHT PANEL ──────────────────────────────── */
+.right-panel {
+  width: 130px;
+  flex-shrink: 0;
+  background: var(--white);
+  border-left: 1px solid var(--border);
+  min-height: calc(100vh - 130px);
+  padding: 8px 6px;
+  font-size: 11px;
+}
+
+.right-panel h4 {
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--text);
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 3px;
+}
+
+.right-panel a {
+  display: block;
+  color: var(--link);
+  text-decoration: none;
+  margin-bottom: 3px;
+  font-size: 11px;
+}
+
+.right-panel a:before { content: ">> "; }
+.right-panel a:hover { text-decoration: underline; }
+
+/* panel visibility */
+.panel { display: none; }
+.panel.active { display: block; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header-top">
+  <div class="header-logos">
+    <div class="logo-ipn">IPN<br>⬡</div>
+  </div>
+  <div class="header-title">
+    <h1>UNIDAD PROFESIONAL INTERDISCIPLINARIA DE INGENIERÍA Y<br>CIENCIAS SOCIALES Y ADMINISTRATIVAS</h1>
+  </div>
+  <div class="logo-right">UPIICSA<br>⊞ ✦</div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="#">Inicio</a>
+  <a href="#" class="active">Alumnos</a>
+  <a href="#">Académica</a>
+  <a href="#">Reglamento</a>
+  <a href="#">Ayuda</a>
+  <a href="#">Recuperar Contraseña</a>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="#">Inicio</a> »
+  <a href="#">Alumnos</a> »
+  <a href="#">Datos académicos</a> »
+  Sistema de Predicción IA
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Datos Personales</div>
+      <a href="#">Datos Personales</a>
+      <a href="#">Datos Médicos</a>
+      <a href="#">Datos Extracurricular</a>
+    </div>
+    <div class="sidebar-section">
+      <a href="#">Expediente Digital</a>
+    </div>
+    <div class="sidebar-section">
+      <a href="#">Pase Digital</a>
+    </div>
+    <div class="sidebar-section">
+      <a href="#">Cambios de Carrera</a>
+    </div>
+    <div class="sidebar-section">
+      <a href="#">Red Académica ISISA</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Trámites</div>
+      <a href="#">Solicitud</a>
+      <a href="#">Seguimiento</a>
+      <a href="#">Citas</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Datos académicos</div>
+      <a href="#">Kárdex</a>
+      <a href="#">Estado General</a>
+      <a href="#" class="active">Predicción IA</a>
+      <a href="#">Dictamen</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Inscripción Actual</div>
+      <a href="#">Horario</a>
+      <a href="#">Calificaciones</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Reinscripciones</div>
+      <a href="#">Cita de Reinscripcion</a>
+      <a href="#">Reinscripcion</a>
+      <a href="#">Comprobante</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">ETS</div>
+      <a href="#">Inscribir ETS</a>
+      <a href="#">Calificaciones</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Saberes Prev. Ad.</div>
+      <a href="#">Inscribir Saberes Pre</a>
+      <a href="#">Calificaciones</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Cursos de Recuperación</div>
+      <a href="#">Inscribir Cursos</a>
+      <a href="#">Calificaciones</a>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- Content header (IPN official block) -->
+    <div class="content-header">
+      <div class="content-logo">IPN<br>⬡</div>
+      <div class="content-title">
+        UNIDAD PROFESIONAL INTERDISCIPLINARIA DE INGENIERÍA Y<br>
+        CIENCIAS SOCIALES Y ADMINISTRATIVAS
+      </div>
+      <div class="content-logo-right">⊞ ✦</div>
+    </div>
+
+    <div class="form-area">
+
+      <!-- Carrera row -->
+      <div class="carrera-row">
+        <span>CARRERA:</span>
+        <select>
+          <option>INGENIERÍA EN INFORMÁTICA</option>
+          <option>INGENIERÍA INDUSTRIAL</option>
+          <option>ADMINISTRACIÓN</option>
+          <option>CONTADURÍA PÚBLICA</option>
+        </select>
+        <select>
+          <option>PLAN 2021</option>
+          <option>PLAN 2017</option>
+          <option>PLAN 2009</option>
+        </select>
+      </div>
+
+      <!-- Module tabs -->
+      <div class="mod-tabs">
+        <div class="mod-tab active" onclick="switchMod('alumnos', this)">Modelo Rendimiento Escolar</div>
+        <div class="mod-tab" onclick="switchMod('covid', this)">Modelo Clínico COVID-19</div>
+      </div>
+
+      <!-- ═══ PANEL ALUMNOS ═══════════════════════ -->
+      <div class="panel active" id="panel-alumnos">
+
+        <div class="data-section">
+          <div class="data-section-title">Datos del Alumno — Predicción Académica</div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <label>Horas de estudio semanales:</label>
+              <input type="number" id="horas" placeholder="Ej. 11" min="0" max="30" style="min-width:120px">
+            </div>
+            <div class="field-group">
+              <label>Porcentaje de asistencia (%):</label>
+              <input type="number" id="asistencia" placeholder="Ej. 85" min="0" max="100" style="min-width:120px">
+            </div>
+            <div class="field-group">
+              <label>Entregó tareas:</label>
+              <select id="tareas" style="min-width:120px">
+                <option value="1">Sí</option>
+                <option value="0" selected>No</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:8px">
+            <button class="btn-submit" onclick="predecirAlumno()">Solicitar predicción</button>
+            <button class="btn-reset" onclick="resetAlumnos()">Limpiar</button>
+          </div>
+
+          <div class="loader" id="load-alumnos">Procesando con el modelo Random Forest...</div>
+          <div class="error-box" id="err-alumnos"></div>
+        </div>
+
+        <div class="results" id="res-alumnos">
+          <div class="data-section">
+            <div class="data-section-title">Resultado de la predicción</div>
+            <table class="result-table">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Valor ingresado</th>
+                  <th>Resultado del modelo</th>
+                  <th>Confianza</th>
+                </tr>
+              </thead>
+              <tbody id="table-alumnos"></tbody>
+            </table>
+            <div class="obs-box show" id="obs-alumnos">
+              <strong>Observaciones del modelo:</strong><br>
+              <span id="obs-text-alumnos"></span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /panel-alumnos -->
+
+      <!-- ═══ PANEL COVID ══════════════════════════ -->
+      <div class="panel" id="panel-covid">
+
+        <div class="data-section">
+          <div class="data-section-title">Datos del Paciente — Modelo Clínico COVID-19</div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <label>Edad:</label>
+              <input type="number" id="edad" placeholder="Ej. 45" min="0" max="120" style="min-width:90px">
+            </div>
+            <div class="field-group">
+              <label>Género:</label>
+              <select id="genero" style="min-width:120px">
+                <option>Masculino</option>
+                <option>Femenino</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label>Nivel de atención:</label>
+              <select id="nivel" style="min-width:130px">
+                <option value="1">1 — Primer nivel</option>
+                <option value="2" selected>2 — Segundo nivel</option>
+                <option value="3">3 — Tercer nivel / UCI</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <label>Diagnóstico (dx):</label>
+              <input type="text" id="dx" placeholder="COVID-19" style="min-width:140px">
+            </div>
+            <div class="field-group">
+              <label>Estado:</label>
+              <input type="text" id="estado" placeholder="CIUDAD DE MÉXICO" style="min-width:160px">
+            </div>
+            <div class="field-group">
+              <label>Municipio:</label>
+              <input type="text" id="municipio" placeholder="IZTAPALAPA" style="min-width:130px">
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <label>Intervención médica:</label>
+              <select id="intervencion" style="min-width:200px">
+                <option>Oxígeno suplementario</option>
+                <option>Ventilación mecánica</option>
+                <option>Medicamento antiviral</option>
+                <option>Hospitalización general</option>
+                <option>UCI</option>
+                <option>Observación ambulatoria</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label>Comorbilidades:</label>
+              <select id="comorbilidades" style="min-width:160px">
+                <option value="ninguna">Ninguna</option>
+                <option value="diabetes">Diabetes</option>
+                <option value="hipertension">Hipertensión</option>
+                <option value="obesidad">Obesidad</option>
+                <option value="multiple">Múltiples</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:8px">
+            <button class="btn-submit" onclick="predecirCovid()">Generar pronóstico clínico</button>
+            <button class="btn-reset" onclick="resetCovid()">Limpiar</button>
+          </div>
+
+          <div class="loader" id="load-covid">Procesando expediente con el modelo clínico...</div>
+          <div class="error-box" id="err-covid"></div>
+        </div>
+
+        <div class="results" id="res-covid">
+          <div class="data-section">
+            <div class="data-section-title">Resultado del pronóstico clínico</div>
+            <table class="result-table">
+              <thead>
+                <tr>
+                  <th>Indicador</th>
+                  <th>Resultado</th>
+                  <th>Nivel de riesgo</th>
+                </tr>
+              </thead>
+              <tbody id="table-covid"></tbody>
+            </table>
+            <div class="obs-box show" id="obs-covid">
+              <strong>Análisis clínico del modelo:</strong><br>
+              <span id="obs-text-covid"></span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /panel-covid -->
+
+      <div style="font-size:10px;color:#888;margin-top:16px;border-top:1px solid var(--border);padding-top:8px">
+        Sistema de Predicción IA · Ochoa Bocker Maximiliano · UPIICSA-IPN · 2025
+      </div>
+
+    </div><!-- /form-area -->
+  </div><!-- /main -->
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+    <h4>Accesos rápidos</h4>
+    <a href="#">Agenda escolar</a>
+    <a href="#">Horarios de clase</a>
+    <a href="#">Horarios de ETS</a>
+    <a href="#">Kárdex</a>
+    <a href="#">Calificaciones</a>
+  </div>
+
+</div><!-- /layout -->
+
+<script>
+// ── Switch módulos ─────────────────────────────────
+function switchMod(id, el) {
+  document.querySelectorAll('.mod-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+}
+
+// ── MOTOR DE PREDICCIÓN JAVASCRIPT (sin backend) ───
+
+// ── MODELO ALUMNOS: Random Forest simplificado ─────
+function predecirRendimiento(horas, asistencia, tareas) {
+  // Árbol 1: basado en horas y tareas
+  function arbol1(h, a, t) {
+    if (t === 1 && h >= 8) return 'Aprobado';
+    if (h >= 14) return 'Aprobado';
+    if (h < 4) return 'Reprobado';
+    if (a >= 85 && t === 1) return 'Aprobado';
+    return 'Reprobado';
+  }
+  // Árbol 2: basado en asistencia
+  function arbol2(h, a, t) {
+    if (a >= 90) return 'Aprobado';
+    if (a < 50) return 'Reprobado';
+    if (h >= 10 && a >= 70) return 'Aprobado';
+    if (t === 1 && a >= 65) return 'Aprobado';
+    return 'Reprobado';
+  }
+  // Árbol 3: combinado con peso en tareas
+  function arbol3(h, a, t) {
+    const score = (h / 20) * 40 + (a / 100) * 40 + t * 20;
+    return score >= 55 ? 'Aprobado' : 'Reprobado';
+  }
+  // Árbol 4: umbral asistencia crítica
+  function arbol4(h, a, t) {
+    if (a < 60) return 'Reprobado';
+    if (h >= 12) return 'Aprobado';
+    if (t === 1 && h >= 7) return 'Aprobado';
+    return 'Reprobado';
+  }
+  // Árbol 5: peso horas
+  function arbol5(h, a, t) {
+    if (h >= 16) return 'Aprobado';
+    if (h <= 2) return 'Reprobado';
+    if (a >= 80 && t === 1) return 'Aprobado';
+    if (a >= 75 && h >= 9) return 'Aprobado';
+    return 'Reprobado';
+  }
+
+  const votos = [arbol1, arbol2, arbol3, arbol4, arbol5].map(f => f(horas, asistencia, tareas));
+  const aprobados = votos.filter(v => v === 'Aprobado').length;
+  const resultado = aprobados >= 3 ? 'Aprobado' : 'Reprobado';
+  const confianza = Math.round((Math.max(aprobados, 5 - aprobados) / 5) * 100);
+
+  // Generar razón contextual
+  let razon = '';
+  if (resultado === 'Aprobado') {
+    if (horas >= 12 && asistencia >= 85)
+      razon = `El alumno muestra un perfil académico sólido con ${horas} horas de estudio semanales y ${asistencia}% de asistencia. El modelo predice aprobación con alta confianza.`;
+    else if (tareas === 1)
+      razon = `La entrega de tareas, combinada con ${horas} hrs/semana y ${asistencia}% de asistencia, inclina el modelo hacia la aprobación.`;
+    else
+      razon = `Con ${horas} hrs/semana y ${asistencia}% de asistencia, el modelo calcula suficiente rendimiento para aprobar.`;
+  } else {
+    if (horas < 5)
+      razon = `Las ${horas} hrs/semana de estudio son insuficientes según el modelo. Se recomienda aumentar a al menos 8-10 hrs para mejorar la probabilidad de aprobación.`;
+    else if (asistencia < 60)
+      razon = `El ${asistencia}% de asistencia está por debajo del umbral crítico del modelo. La asistencia es el factor de mayor peso en la predicción.`;
+    else
+      razon = `La combinación de ${horas} hrs/semana, ${asistencia}% de asistencia y ${tareas === 0 ? 'falta de tareas' : 'entrega de tareas'} resulta en predicción de reprobación. Mejorar asistencia y horas de estudio puede revertir el resultado.`;
+  }
+
+  return { resultado, confianza, razon };
+}
+
+// ── MODELO COVID: Random Forest clínico ────────────
+function predecirCovid_modelo(edad, genero, nivel, interv, comor) {
+  const edadN = parseInt(edad) || 0;
+
+  // Score de riesgo base (0-100)
+  let score = 0;
+
+  // Edad (factor más importante)
+  if (edadN >= 80) score += 40;
+  else if (edadN >= 65) score += 30;
+  else if (edadN >= 50) score += 18;
+  else if (edadN >= 40) score += 10;
+  else if (edadN >= 30) score += 5;
+  else score += 2;
+
+  // Género
+  if (genero === 'Masculino') score += 8;
+
+  // Nivel de atención
+  score += parseInt(nivel) * 8;
+
+  // Comorbilidades
+  if (comor === 'multiple')     score += 20;
+  else if (comor === 'diabetes')     score += 12;
+  else if (comor === 'hipertension') score += 10;
+  else if (comor === 'obesidad')     score += 9;
+
+  // Intervención (si ya están en UCI/ventilación, es más grave)
+  if (interv === 'UCI')                    score += 15;
+  else if (interv === 'Ventilación mecánica') score += 12;
+  else if (interv === 'Oxígeno suplementario') score += 6;
+
+  score = Math.min(score, 100);
+
+  // Mortalidad
+  let mortalidad;
+  if (score >= 60) mortalidad = 'ALTO';
+  else if (score >= 35) mortalidad = 'MEDIO';
+  else mortalidad = 'BAJO';
+
+  // Intubación
+  const tubo = (score >= 55 || interv === 'Ventilación mecánica' || interv === 'UCI') ? 'SÍ' : 'NO';
+
+  // Estancia hospitalaria estimada (días)
+  let estancia;
+  if (score >= 70) estancia = parseFloat((10 + Math.random() * 8).toFixed(1));
+  else if (score >= 50) estancia = parseFloat((6 + Math.random() * 5).toFixed(1));
+  else if (score >= 30) estancia = parseFloat((3 + Math.random() * 4).toFixed(1));
+  else estancia = parseFloat((1 + Math.random() * 3).toFixed(1));
+
+  // Razón clínica
+  let razon = '';
+  const factores = [];
+  if (edadN >= 65) factores.push(`edad avanzada (${edadN} años)`);
+  if (comor !== 'ninguna') factores.push(comor === 'multiple' ? 'múltiples comorbilidades' : comor);
+  if (genero === 'Masculino' && score > 30) factores.push('sexo masculino como factor de riesgo adicional');
+  if (nivel === '3') factores.push('requerimiento de atención terciaria/UCI');
+
+  if (mortalidad === 'ALTO') {
+    razon = `El modelo clasifica al paciente en ALTO riesgo de mortalidad. Los principales factores de riesgo son: ${factores.length ? factores.join(', ') : 'perfil clínico de alta gravedad'}. Se recomienda atención inmediata y monitoreo intensivo.`;
+  } else if (mortalidad === 'MEDIO') {
+    razon = `Riesgo MEDIO de mortalidad. ${factores.length ? 'Factores relevantes: ' + factores.join(', ') + '.' : ''} El paciente requiere monitoreo continuo y reevaluación cada 24-48 horas para ajustar el plan de manejo.`;
+  } else {
+    razon = `Perfil de BAJO riesgo según el modelo clínico. ${factores.length ? 'Se identifican: ' + factores.join(', ') + ', aunque sin alcanzar umbral de riesgo elevado.' : 'No se identifican factores de riesgo mayores.'} Seguimiento ambulatorio con indicaciones claras de alarma.`;
+  }
+
+  return { tubo, estancia, mortalidad, razon };
+}
+
+// ── RESET ──────────────────────────────────────────
+function resetAlumnos() {
+  ['horas','asistencia'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('tareas').value = '0';
+  document.getElementById('res-alumnos').classList.remove('show');
+  document.getElementById('err-alumnos').classList.remove('show');
+}
+
+function resetCovid() {
+  ['edad','dx','estado','municipio'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('nivel').value = '2';
+  document.getElementById('res-covid').classList.remove('show');
+  document.getElementById('err-covid').classList.remove('show');
+}
+
+// ── ALUMNOS ────────────────────────────────────────
+function predecirAlumno() {
+  const horas  = parseFloat(document.getElementById('horas').value);
+  const asist  = parseFloat(document.getElementById('asistencia').value);
+  const tareas = parseInt(document.getElementById('tareas').value);
+  const err    = document.getElementById('err-alumnos');
+  const res    = document.getElementById('res-alumnos');
+
+  err.classList.remove('show');
+  res.classList.remove('show');
+
+  if (isNaN(horas) || isNaN(asist)) {
+    err.textContent = 'Error: Ingresa horas de estudio y porcentaje de asistencia.';
+    err.classList.add('show');
+    return;
+  }
+
+  const json = predecirRendimiento(horas, asist, tareas);
+  const aprobado = json.resultado === 'Aprobado';
+  const cls = aprobado ? 'val-aprobado' : 'val-reprobado';
+
+  document.getElementById('table-alumnos').innerHTML = `
+    <tr>
+      <td>Horas de estudio</td>
+      <td>${horas} hrs/semana</td>
+      <td rowspan="3" style="text-align:center;vertical-align:middle;font-size:15px">
+        <span class="${cls}">${json.resultado.toUpperCase()}</span>
+      </td>
+      <td rowspan="3" style="text-align:center;vertical-align:middle">
+        <strong>${json.confianza}%</strong>
+      </td>
+    </tr>
+    <tr>
+      <td>Asistencia</td>
+      <td>${asist}%</td>
+    </tr>
+    <tr>
+      <td>Entregó tareas</td>
+      <td>${tareas === 1 ? 'Sí' : 'No'}</td>
+    </tr>
+  `;
+  document.getElementById('obs-text-alumnos').textContent = json.razon;
+  res.classList.add('show');
+}
+
+// ── COVID ──────────────────────────────────────────
+function predecirCovid() {
+  const edad   = document.getElementById('edad').value;
+  const genero = document.getElementById('genero').value;
+  const nivel  = document.getElementById('nivel').value;
+  const interv = document.getElementById('intervencion').value;
+  const comor  = document.getElementById('comorbilidades').value;
+  const err    = document.getElementById('err-covid');
+  const res    = document.getElementById('res-covid');
+
+  err.classList.remove('show');
+  res.classList.remove('show');
+
+  if (!edad) {
+    err.textContent = 'Error: El campo Edad es obligatorio.';
+    err.classList.add('show');
+    return;
+  }
+
+  const json = predecirCovid_modelo(parseInt(edad), genero, nivel, interv, comor);
+
+  const mCls = json.mortalidad === 'ALTO' ? 'val-alto'  :
+               json.mortalidad === 'MEDIO'? 'val-medio' : 'val-bajo';
+  const tCls = json.tubo === 'SÍ' ? 'val-si' : 'val-no';
+
+  document.getElementById('table-covid').innerHTML = `
+    <tr>
+      <td><strong>Requerimiento de intubación</strong></td>
+      <td class="${tCls}">${json.tubo}</td>
+      <td>${json.tubo === 'SÍ' ? 'Requiere manejo especializado' : 'No requerido al momento'}</td>
+    </tr>
+    <tr>
+      <td><strong>Estancia hospitalaria estimada</strong></td>
+      <td><strong>${json.estancia} días</strong></td>
+      <td>${json.estancia <= 3 ? 'Estancia corta' : json.estancia <= 7 ? 'Estancia moderada' : 'Estancia prolongada'}</td>
+    </tr>
+    <tr>
+      <td><strong>Riesgo de mortalidad</strong></td>
+      <td class="${mCls}">${json.mortalidad}</td>
+      <td class="${mCls}">${json.mortalidad === 'ALTO' ? 'Requiere atención inmediata' : json.mortalidad === 'MEDIO' ? 'Monitoreo continuo' : 'Favorable'}</td>
+    </tr>
+  `;
+  document.getElementById('obs-text-covid').textContent = json.razon;
+  res.classList.add('show');
+}
+</script>
+</body>
+</html>
